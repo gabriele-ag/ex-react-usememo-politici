@@ -1,0 +1,28 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* Common */
+
+li {
+    list-style-type: none;
+}
+/* Utilities */
+/* MAIN */
+
+
+.card-box {
+    width: 30%;
+}
+
+.card-politicians {
+    border-radius: 1px;
+    border: 1px solid black;
+    margin-bottom: 30px;
+}
