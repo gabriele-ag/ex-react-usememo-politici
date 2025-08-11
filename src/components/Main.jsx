@@ -19,6 +19,7 @@ const Card = memo(({name, biography, image, position, index}) => {
 
 const Main = () => {
   const [politicians, setPoliticians] = useState([])
+  const [position, setPosition] = useState("")
   const [search, setSearch] = useState("")
 
   const fetchJson = async (url) => {
@@ -41,25 +42,42 @@ const Main = () => {
     getData();
   }, []);
 
+
   const filteredPoliticians = useMemo(() => {
       return politicians.filter(politicians => {
       const isIncluded = politicians.name.toLowerCase().includes(search.toLowerCase())
       const isInDescr = politicians.biography.toLowerCase().includes(search.toLowerCase())
-      return isIncluded || isInDescr
+      const isInPosition = position === "" || politicians.position === position
+      return (isIncluded || isInDescr) && isInPosition
     })  
-  }, [politicians, search])
+  }, [politicians, search, position])
+
+
+  const politicianPosition = useMemo(() => {
+    const allPosition = politicians.map(curPosition => curPosition.position)
+    const uniquePosition = allPosition.filter((p, index, arr) => {
+      return arr.indexOf(p) === index
+    })
+    return uniquePosition
+  }, [politicians])
 
 
 
   return (
     <section>
       <h1 className="mb-40">Ecco la lista dei politici</h1>
-      <form className="mb-40" action="">
+      <form className="mb-40" onSubmit={(e) => e.preventDefault()}>
         <input 
         type="text" 
         name="" id="" 
         placeholder="Cerca per nome o biografia..."
         onChange={(e) => setSearch(e.target.value)}/>
+        <select onChange={(e) => setPosition(e.target.value)} value={position}>
+          <option value="">Tutte le posizioni</option>
+          {politicianPosition.map((pos, i) => (
+          <option key={i} value={pos}>{pos}</option>
+        ))}
+         </select>
         <button>Cerca</button>
       </form>
       <div className="card-box">
