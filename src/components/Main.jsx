@@ -1,7 +1,23 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
+
+const Card = memo(({name, biography, image, position, index}) => {
+  console.log('Rendered PoliticianCard:', name)
+  return (
+    <>
+            <li>
+              <div className="card-politicians">
+                <h3>{name}</h3>
+                <img src={image} alt="politician-image" />
+                <h4>{position}</h4>
+                <p>{biography}</p>
+              </div>
+            </li>       
+    </>
+  )
+}) 
 
 
-function Main() {
+const Main = () => {
   const [politicians, setPoliticians] = useState([])
   const [search, setSearch] = useState("")
 
@@ -49,14 +65,12 @@ function Main() {
       <div className="card-box">
         <ul className="card-flex">
           {filteredPoliticians.map((curElem, index) => (
-            <li key={index}>
-              <div className="card-politicians">
-                <h3>{curElem.name}</h3>
-                <img src={curElem.image} alt="politician-image" />
-                <h4>{curElem.position}</h4>
-                <p>{curElem.biography}</p>
-              </div>
-            </li>       
+            <Card
+            key={index}
+            name={curElem.name}
+            biography={curElem.biography}
+            image={curElem.image}
+            position={curElem.position}/>
           ))}
         </ul>
       </div>
